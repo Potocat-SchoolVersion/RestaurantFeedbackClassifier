@@ -36,6 +36,12 @@ from torch.utils.data import Dataset
 
 #st.write("All keys in session_state:", st.session_state.keys())
 
+# remove if want throw into streamlit.app
+nltk.download("punkt")
+nltk.download("stopwords")
+nltk.download("wordnet")
+nltk.download("averaged_perceptron_tagger")
+nltk.download("sentiwordnet")
 
 stop_words = set(stopwords.words("english"))
 lemmatizer = WordNetLemmatizer()
@@ -125,25 +131,27 @@ if "svm_model" not in st.session_state:
 # BERT
 if "bert_pipeline" not in st.session_state:
     #----------------------- IMPORT TRAINED MODEL -----------------------
-    # load_path = "./bert_model"
-    # tokenizer = AutoTokenizer.from_pretrained(load_path)
-    # model = AutoModelForSequenceClassification.from_pretrained(load_path)
-
+    load_path = "./bert_model"
+    tokenizer = AutoTokenizer.from_pretrained(load_path)
+    model = AutoModelForSequenceClassification.from_pretrained(load_path)
+    with open("./bert_model/y_pred_bert.json", "r") as f:
+        y_pred_bert = json.load(f)
     bert_pipeline = pipeline(
         "sentiment-analysis",
         model="cardiffnlp/twitter-roberta-base-sentiment-latest",
         truncation=True,
         max_length=512,
         batch_size=32,
-        # model=model,
-        # tokenizer=tokenizer
+        model=model,
+        tokenizer=tokenizer
     )
     bert_dataset = st.session_state.df["lemma_text"].tolist()   # runned once
     bert_results = bert_pipeline(bert_dataset)
 
     st.session_state.bert_pipeline = bert_pipeline
     st.session_state.y_pred_bert = [bert_label_map[r["label"]] for r in bert_results]
-
+    with open("./bert_model/y_pred_bert.json", "r") as f:
+        st.session_state.y_pred_bert = json.load(f)
 def _rating(prediction):
     bad, average, good = prediction
     sentiment_score = (bad * 0) + (average * 0.5) + (good * 1)

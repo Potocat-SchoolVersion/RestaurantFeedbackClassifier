@@ -82,7 +82,7 @@ def preprocess_text(text):
 
 
 if "df" not in st.session_state or "tfidf" not in st.session_state:
-    df = pd.read_csv("Yelp_CLeaned.csv")
+    df = pd.read_csv("Yelp_Cleaned.csv")
     df["lemma_text"] = df["text"].astype(str).apply(preprocess_text)
     tfidf = TfidfVectorizer(max_features=5000, ngram_range=(1,2))  # unigrams + bigrams
     # tfidf.fit(df["lemma_text"]).toarray()

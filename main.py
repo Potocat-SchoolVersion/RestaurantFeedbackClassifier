@@ -36,6 +36,7 @@ from torch.utils.data import Dataset
 
 #st.write("All keys in session_state:", st.session_state.keys())
 
+# ---------------------------- Open for localhost running ---------------------------- #
 # nltk.download("punkt_tab") #tokenizer tables 
 # nltk.download("stopwords") #list of common stopword
 # nltk.download("wordnet") # dictionary for lemmatizer.

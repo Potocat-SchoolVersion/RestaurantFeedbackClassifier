@@ -145,11 +145,12 @@ if "bert_pipeline" not in st.session_state:
         model=model,
         tokenizer=tokenizer
     )
+    # comment as import pretrained
     #bert_dataset = st.session_state.df["lemma_text"].tolist()   # runned once
     #bert_results = bert_pipeline(bert_dataset)
-
-    st.session_state.bert_pipeline = bert_pipeline
     #st.session_state.y_pred_bert = [bert_label_map[r["label"]] for r in bert_results]
+    st.session_state.bert_pipeline = bert_pipeline
+    
     with open("./bert_model/y_pred_bert.json", "r") as f:
         st.session_state.y_pred_bert = json.load(f)
 def _rating(prediction):

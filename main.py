@@ -134,8 +134,6 @@ if "bert_pipeline" not in st.session_state:
     load_path = "./bert_model"
     tokenizer = AutoTokenizer.from_pretrained(load_path)
     model = AutoModelForSequenceClassification.from_pretrained(load_path)
-    with open("./bert_model/y_pred_bert.json", "r") as f:
-        y_pred_bert = json.load(f)
     bert_pipeline = pipeline(
         "sentiment-analysis",
         #model="cardiffnlp/twitter-roberta-base-sentiment-latest",

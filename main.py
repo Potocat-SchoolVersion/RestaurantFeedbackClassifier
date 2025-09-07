@@ -130,32 +130,29 @@ if "svm_model" not in st.session_state:
 # BERT
 if "bert_pipeline" not in st.session_state:
     #----------------------- IMPORT TRAINED MODEL -----------------------
+    load_path = "./bert_model"
+    tokenizer = AutoTokenizer.from_pretrained(load_path)
+    model = AutoModelForSequenceClassification.from_pretrained(load_path)
+
     bert_pipeline = pipeline(
         "sentiment-analysis",
         model="cardiffnlp/twitter-roberta-base-sentiment-latest",
         truncation=True,
         max_length=512,
         batch_size=32,
+        # model=model,
+        # tokenizer=tokenizer
     )
-    #bert_dataset = st.session_state.df["lemma_text"].tolist()   # runned once
-    #bert_results = bert_pipeline(bert_dataset)
-    #y_pred = [bert_label_map[r["label"]] for r in bert_results]
-    #y_true = st.session_state.y
+    bert_dataset = st.session_state.df["lemma_text"].tolist()   # runned once
+    bert_results = bert_pipeline(bert_dataset)
 
     st.session_state.bert_pipeline = bert_pipeline
+    st.session_state.y_pred_bert = [bert_label_map[r["label"]] for r in bert_results]
 
-def _round(num):
-    decimal = num - int(num)
-    if decimal >= 0.4:
-        return int(num) + 1
-    else:
-        return int(num)
-
-def star_rating(prediction):
+def _rating(prediction):
     bad, average, good = prediction
     sentiment_score = (bad * 0) + (average * 0.5) + (good * 1)
-    #print(1 + sentiment_score * 4)
-    return _round(1 + (sentiment_score * 4))
+    return '%.1f' % (1 + (sentiment_score * 4))
 
 def classify_review(model, review):
     processed_review = preprocess_text(review)
@@ -190,10 +187,10 @@ def performance_evaluation():
         "F1 Score": f1_score(st.session_state.y_test, st.session_state.y_pred_svm, average="weighted")
     }
     bert_metrics = {
-        # "Accuracy": accuracy_score(st.session_state.y, st.session_state.y_pred_bert),
-        # "Precision": precision_score(st.session_state.y, st.session_state.y_pred_bert, average="weighted"),
-        # "Recall": recall_score(st.session_state.y, st.session_state.y_pred_bert, average="weighted"),
-        # "F1 Score": f1_score(st.session_state.y, st.session_state.y_pred_bert, average="weighted")
+        "Accuracy": accuracy_score(st.session_state.y, st.session_state.y_pred_bert),
+        "Precision": precision_score(st.session_state.y, st.session_state.y_pred_bert, average="weighted"),
+        "Recall": recall_score(st.session_state.y, st.session_state.y_pred_bert, average="weighted"),
+        "F1 Score": f1_score(st.session_state.y, st.session_state.y_pred_bert, average="weighted")
     }
 
     return pd.DataFrame([nb_metrics, svm_metrics, bert_metrics],
@@ -271,7 +268,7 @@ if menu == "Algorithm Model Call":
     if classify_clicked and review and selected_model:
         result, probabilities = classify_review(selected_model, review)
         st.write(f"Classifying review: {result}")
-        st.write(f"Star Rating : {'⭐' * star_rating(probabilities)}")
+        st.write(f"Rating Score : {_rating(probabilities)}/5⭐")
     elif classify_clicked and (selected_model == None or not review):
         st.write("[Warning] Unable to classify without a model/empty review.")
 

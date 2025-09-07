@@ -2,7 +2,7 @@ import re
 import string
 import pandas as pd
 import numpy as np
-
+import json
 import streamlit as st
 
 # NLP (Natural Language Toolkit)
@@ -138,7 +138,7 @@ if "bert_pipeline" not in st.session_state:
         y_pred_bert = json.load(f)
     bert_pipeline = pipeline(
         "sentiment-analysis",
-        model="cardiffnlp/twitter-roberta-base-sentiment-latest",
+        #model="cardiffnlp/twitter-roberta-base-sentiment-latest",
         truncation=True,
         max_length=512,
         batch_size=32,

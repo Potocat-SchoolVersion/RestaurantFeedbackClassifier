@@ -255,7 +255,7 @@ if menu == "Algorithm Model Call":
     elif selected == "BERT":
         selected_model = st.session_state.bert_pipeline
     else:
-        st.write(f"Please select a valid model.")
+        st.write(f"Please select a model.")
 
     if "review_input_field" not in st.session_state:
         st.session_state.review_input_field = ""

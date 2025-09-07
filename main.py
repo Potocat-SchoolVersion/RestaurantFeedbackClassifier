@@ -277,6 +277,7 @@ if menu == "Algorithm Model Call":
 
 elif menu == "Performance Evaluation":
     st.header("📊 Performance Evaluation")
-    st.markdown("### Model Performance")
+    st.markdown("### Models' Performance")
+    st.markdown("Performance & Accuracy of 3 NLP Models (Naïve Bayes, Support Vector Machine & BERT)")
     performance = performance_evaluation()
     st.dataframe(performance)

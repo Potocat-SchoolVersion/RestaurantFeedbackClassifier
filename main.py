@@ -125,9 +125,9 @@ if "svm_model" not in st.session_state:
 # BERT
 if "bert_pipeline" not in st.session_state:
     #----------------------- IMPORT TRAINED MODEL -----------------------
-    load_path = "./bert_model"
-    tokenizer = AutoTokenizer.from_pretrained(load_path)
-    model = AutoModelForSequenceClassification.from_pretrained(load_path)
+    # load_path = "./bert_model"
+    # tokenizer = AutoTokenizer.from_pretrained(load_path)
+    # model = AutoModelForSequenceClassification.from_pretrained(load_path)
 
     bert_pipeline = pipeline(
         "sentiment-analysis",

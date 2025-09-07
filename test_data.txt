@@ -1,0 +1,10 @@
+Test Data
+[Perfect]Coffee is insane, texture bold and rich, nice toast and relax environment!
+
+[N:2.5]Cookies is overcooked and a bit hard, service good but toilet is somehow dirty...
+
+[P:3.2|P:3.5]Pasta is creamy and tasty! A brand new experience in cafe hopping!
+
+[Perfect]Bad experience in this visit, too salty food and service are poor!
+
+[P:3.7]Curry Rice is amazing!!!However the staff is rude :(

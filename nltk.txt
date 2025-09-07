@@ -1,5 +1,5 @@
-punkt
-stopwords
-wordnet
-averaged_perceptron_tagger
-sentiwordnet
+tokenizers/punkt
+corpora/stopwords
+corpora/wordnet
+taggers/averaged_perceptron_tagger
+corpora/sentiwordnet
